@@ -7,8 +7,8 @@ export const DEVICE_SIZE = {
 };
 
 /**
- * Iterate through the sizes and create a media template
- * Reference: https://www.styled-components.com/docs/advanced#media-templates
+ * Iterate through the sizes and create a media template.
+ * Reference: https://www.styled-components.com/docs/advanced#media-templates.
  */
 export const media = Object.keys(DEVICE_SIZE).reduce((acc, label) => {
   acc[label] = (...args) => css`
