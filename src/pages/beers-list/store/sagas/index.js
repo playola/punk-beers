@@ -11,7 +11,7 @@ import {
 export function* getBeers() {
   try {
     const response = yield call(getBeersService);
-    yield put(getBeersSuccess(response));
+    yield put(getBeersSuccess(response.data));
   } catch (err) {
     yield put(getBeersFailure(err));
   }

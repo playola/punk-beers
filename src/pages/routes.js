@@ -11,7 +11,7 @@ const Routes = () => (
   <Router>
     <Switch>
       <Route exact path="/" render={() => <BeersList />} />
-      <Route path="/beer-detail/:index" render={() => <BeerDetails />} />
+      <Route path="/beer-detail/:id" render={({ match }) => <BeerDetails id={match.params.id} />} />
     </Switch>
   </Router>
 );
