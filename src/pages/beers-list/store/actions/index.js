@@ -9,9 +9,10 @@ export const getBeers = page => ({
   page,
 });
 
-export const getBeersSuccess = response => ({
+export const getBeersSuccess = (response, page) => ({
   type: GET_BEERS_SUCCESS,
   response,
+  page,
 });
 
 export const getBeersFailure = error => ({

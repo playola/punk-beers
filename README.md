@@ -30,6 +30,7 @@ See http://localhost:3000/.
 ```
 yarn test
 ```
+The tests are not fully completed due to time constraints. Beers list saga test suite is errored, and the components and the pages need tests.
 
 ## Authors
 - **playola**

@@ -19,26 +19,29 @@ const isStorageValid = (value, page) => value && (value.length % page === 0);
 
 export function* getBeers(payload) {
   try {
+    /**
+     * Get stored list and page, and check if storage exists and is valid.
+     */
     const beersListStored = getLocalStorageItem('beers');
-    const pageStored = getLocalStorageItem('page');
-    console.log('page', payload.page)
-    if (isStorageValid(beersListStored, payload.page)) {
+    const pageStored = Math.max(getLocalStorageItem('page'), payload.page) || 1;
+
+    if (isStorageValid(beersListStored, pageStored)) {
       /**
        * If the storage exists and is valid, we used it instead of fetching more beers.
        */
-      yield put(getBeersSuccess(beersListStored));
+      yield put(getBeersSuccess(beersListStored, pageStored));
     } else {
       /**
        * Otherwise, we fetch beers by 'page', and we save the value in the storage.
        */
-      const response = yield call(getBeersService, payload.page);
+      const response = yield call(getBeersService, pageStored);
       const newStorageValue = beersListStored
         ? beersListStored.concat(response.data)
         : response.data;
 
       setLocalStorageItem('beers', newStorageValue);
-      setLocalStorageItem('page', payload.page);
-      yield put(getBeersSuccess(newStorageValue));
+      setLocalStorageItem('page', pageStored);
+      yield put(getBeersSuccess(newStorageValue, pageStored));
     }
   } catch (err) {
     yield put(getBeersFailure(err));

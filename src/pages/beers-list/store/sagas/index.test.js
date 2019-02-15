@@ -10,6 +10,9 @@ import {
 } from '../actions/types';
 
 describe('Beers list saga', () => {
+  const payload = {
+    page: 1,
+  };
   const response = [{ name: 'foo' }, { name: 'boo' }];
   const errorMessage = '404 not found';
 
@@ -19,10 +22,10 @@ describe('Beers list saga', () => {
       response: response,
     };
     testSaga(getBeers)
-      .next()
-      .call(getBeersService)
+      .next(payload)
+      .call(getBeersService, 1)
       .next(response)
-      .put(getBeersSuccess(response))
+      .put(getBeersSuccess(response, 1))
       .next(result)
       .isDone();
   });

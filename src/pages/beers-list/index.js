@@ -12,8 +12,7 @@ import {
   Image,
 } from './styles';
 
-const BeersList = React.memo(({ beersList, getBeers }) => {
-  const [page, setPage] = useState(1);
+const BeersList = React.memo(({ beersList, getBeers, page }) => {
   const [name, setName] = useState('');
 
   /**
@@ -24,18 +23,13 @@ const BeersList = React.memo(({ beersList, getBeers }) => {
   }, []);
 
   /**
-   * Fetch more beers using an infinite scroll.
+   * Fetch more beers when the user scrolls down.
    */
   useEffect(() => {
     window.onscroll = () => {
       const docElement = document.documentElement;
       if (window.innerHeight + docElement.scrollTop === docElement.offsetHeight) {
-        /**
-         * Fetch the scroll goes down.
-         */
-        const nextPage = page + 1;
-        getBeers(nextPage);
-        setPage(nextPage);
+        getBeers(page + 1);
       }
     };
   });
@@ -71,10 +65,16 @@ const BeersList = React.memo(({ beersList, getBeers }) => {
 BeersList.propTypes = {
   beersList: PropTypes.arrayOf(PropTypes.object).isRequired,
   getBeers: PropTypes.func.isRequired,
+  page: PropTypes.number,
+};
+
+BeersList.defaultProps = {
+  page: 1,
 };
 
 const mapStateToProps = ({ beersListReducer }) => ({
   beersList: beersListReducer.beers,
+  page: beersListReducer.page,
 });
 
 const mapDispatchToProps = {

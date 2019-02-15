@@ -6,12 +6,15 @@ import {
 
 const initialState = {
   beers: [],
+  page: 1,
   loading: false,
   error: null,
 };
 
 const beersListReducer = (state = initialState, action) => {
-  const { type, response, error } = action;
+  const {
+    type, response, error, page,
+  } = action;
 
   switch (type) {
     case GET_BEERS_REQUEST:
@@ -24,6 +27,7 @@ const beersListReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         beers: response,
+        page,
       };
     case GET_BEERS_FAILURE:
       return {
