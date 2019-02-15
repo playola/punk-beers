@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getBeers } from '../beers-list/store/actions';
+import { Button } from '../../components';
 import { PageTitle, StyledLink } from '../styles';
 import {
   HeaderWrapper,
@@ -10,16 +12,31 @@ import {
   BackButton,
 } from './styles';
 
-const BeerDetails = React.memo(({ beersList, id }) => {
+const BeerDetails = React.memo(({ beersList, id, getBeers }) => {
   const [beerDetails, setBeersDetails] = useState({});
+  const [toggle, setToggle] = useState(false);
 
   /**
-   * Find beer details by id when the component mounts.
+   * Fetch beers from API or storage if there is no value defined.
+   */
+  useEffect(() => {
+    if (!beersList || beersList.length === 0){
+      getBeers();
+    }
+  }, []);
+
+  /**
+   * Find beer details by id when beersList updates.
    */
   useEffect(() => {
     const currentBeerDetails = beersList && beersList.length > 0 && beersList.find(beer => beer.id === parseInt(id));
     setBeersDetails(currentBeerDetails);
-  }, []);
+  }, [beersList]);
+  
+  /**
+   * Update the state for the toggle.
+   */
+  const handleToggle = () => setToggle(!toggle);
   
   /**
    * Beer details to be displayed.
@@ -33,6 +50,8 @@ const BeerDetails = React.memo(({ beersList, id }) => {
     adv: alcoholByVolume,
     ibu: internationalBitternessUnits,
     contributed_by: contributedBy,
+    target_og: targetOf,
+    target_fg: targetFg,
   } = beerDetails;
 
   return (
@@ -52,6 +71,8 @@ const BeerDetails = React.memo(({ beersList, id }) => {
             <Text>Alcohol by volume: { alcoholByVolume }</Text>
             <Text>International Bitterness Units: { internationalBitternessUnits }</Text>
             <Text>Contributed by: { contributedBy }</Text>
+            <Button onClick={handleToggle}>Toggle difference</Button>
+            { toggle && <Text>The difference is: { (targetOf - targetFg).toFixed(2) }</Text> }
           </div>
         )
         : (
@@ -68,10 +89,15 @@ const BeerDetails = React.memo(({ beersList, id }) => {
 BeerDetails.propTypes = {
   beersList: PropTypes.arrayOf(PropTypes.object).isRequired,
   id: PropTypes.string.isRequired,
+  getBeers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ beersListReducer }) => ({
   beersList: beersListReducer.beers,
 });
 
-export default connect(mapStateToProps)(BeerDetails);
+const mapDispatchToProps = {
+  getBeers,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BeerDetails);

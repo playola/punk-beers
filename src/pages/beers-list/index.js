@@ -15,7 +15,7 @@ import {
 const BeersList = React.memo(({ beersList, getBeers }) => {
   const [name, setName] = useState('');
   /**
-   * Fetch beers from API when the components mounts
+   * Fetch beers from API or storage when the components mounts.
    */
   useEffect(() => {
     getBeers();
