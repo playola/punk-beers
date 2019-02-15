@@ -5,5 +5,5 @@
  * @returns {array}           [{ name: 'hello world' }]
  */
 export const filterArrayByName = (array, name) => (
-  array.filter(item => item.name.match(name))
+  array.filter(item => item.name.toLowerCase().match(name.toLowerCase()))
 );

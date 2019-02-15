@@ -1,7 +1,6 @@
 # Punk beers
 
-Beers list and detailed information.<br/>
-This project was bootstrapped using `create-react-app`. I did not eject to have a clear view on what I added and what the tool generated.<br/>
+Beers list and detailed information. This project was bootstrapped using `create-react-app`. I did not eject to have a clear view on what I added and what the tool generated.
 
 ## Core libraries
 * React

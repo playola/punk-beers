@@ -7,11 +7,21 @@ import {
   getBeersSuccess,
   getBeersFailure,
 } from '../actions';
+import { setLocalStorageItem, getLocalStorageItem } from '../../../../utils/local-storage';
 
 export function* getBeers() {
   try {
-    const response = yield call(getBeersService);
-    yield put(getBeersSuccess(response.data));
+    /**
+     * We check if we already have the beers list in the storage in order to fetch it again.
+     */
+    const beersListStored = getLocalStorageItem('beers');
+    if (beersListStored) {
+      yield put(getBeersSuccess(beersListStored));
+    } else {
+      const response = yield call(getBeersService);
+      setLocalStorageItem('beers', response.data)
+      yield put(getBeersSuccess(response.data));
+    }
   } catch (err) {
     yield put(getBeersFailure(err));
   }
