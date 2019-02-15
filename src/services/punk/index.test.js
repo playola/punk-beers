@@ -7,7 +7,7 @@ describe('Punk service', () => {
     const mock = new MockAdapter(axios);
     const dataMock = [{ name: 'foo' }];
 
-    mock.onGet(`${baseUrl}/beers`).reply(200, dataMock);
+    mock.onGet(`${baseUrl}/beers?page=1`).reply(200, dataMock);
 
     getBeers().then((response) => {
       expect(response.data).toEqual(dataMock);

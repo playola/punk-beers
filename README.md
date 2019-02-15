@@ -30,7 +30,14 @@ See http://localhost:3000/.
 ```
 yarn test
 ```
-The tests are not fully completed due to time constraints. Beers list saga test suite is errored, and the components and the pages need tests.
+The tests are not fully completed due to time constraints. For now, the errored tests are skipped.
+
+## Improvements
+- Complete the tests.
+- Add debounce when we scroll down to fetch more beers.
+- Performance of locale storage.
+- Loading when fetching.
+- Error management, e.g.: Modal with the HTTP error.
 
 ## Authors
 - **playola**
