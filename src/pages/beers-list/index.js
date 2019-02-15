@@ -13,13 +13,32 @@ import {
 } from './styles';
 
 const BeersList = React.memo(({ beersList, getBeers }) => {
+  const [page, setPage] = useState(1);
   const [name, setName] = useState('');
+
   /**
    * Fetch beers from API or storage when the components mounts.
    */
   useEffect(() => {
-    getBeers();
+    getBeers(page);
   }, []);
+
+  /**
+   * Fetch more beers using an infinite scroll.
+   */
+  useEffect(() => {
+    window.onscroll = () => {
+      const docElement = document.documentElement;
+      if (window.innerHeight + docElement.scrollTop === docElement.offsetHeight) {
+        /**
+         * Fetch the scroll goes down.
+         */
+        const nextPage = page + 1;
+        getBeers(nextPage);
+        setPage(nextPage);
+      }
+    };
+  });
 
   /**
    * Filter beers list by 'name' key.

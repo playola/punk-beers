@@ -4,8 +4,9 @@ import {
   GET_BEERS_FAILURE,
 } from './types';
 
-export const getBeers = () => ({
+export const getBeers = page => ({
   type: GET_BEERS_REQUEST,
+  page,
 });
 
 export const getBeersSuccess = response => ({

@@ -9,18 +9,36 @@ import {
 } from '../actions';
 import { setLocalStorageItem, getLocalStorageItem } from '../../../../utils/local-storage';
 
-export function* getBeers() {
+/**
+ * Checks if the storage value exists and is valid.
+ * @param   {array}   value [{ id: 0 }, { id: 1 }, ..., { id: 24 }] --> length 25
+ * @param   {number}  page  1
+ * @return  {boolean}       true
+ */
+const isStorageValid = (value, page) => value && (value.length % page === 0);
+
+export function* getBeers(payload) {
   try {
-    /**
-     * We check if we already have the beers list in the storage in order to fetch it again.
-     */
     const beersListStored = getLocalStorageItem('beers');
-    if (beersListStored) {
+    const pageStored = getLocalStorageItem('page');
+    console.log('page', payload.page)
+    if (isStorageValid(beersListStored, payload.page)) {
+      /**
+       * If the storage exists and is valid, we used it instead of fetching more beers.
+       */
       yield put(getBeersSuccess(beersListStored));
     } else {
-      const response = yield call(getBeersService);
-      setLocalStorageItem('beers', response.data)
-      yield put(getBeersSuccess(response.data));
+      /**
+       * Otherwise, we fetch beers by 'page', and we save the value in the storage.
+       */
+      const response = yield call(getBeersService, payload.page);
+      const newStorageValue = beersListStored
+        ? beersListStored.concat(response.data)
+        : response.data;
+
+      setLocalStorageItem('beers', newStorageValue);
+      setLocalStorageItem('page', payload.page);
+      yield put(getBeersSuccess(newStorageValue));
     }
   } catch (err) {
     yield put(getBeersFailure(err));
