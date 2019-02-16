@@ -30,7 +30,3 @@ export const BeerItemWrapper = styled.div`
     background-color: ${({ theme }) => theme.secondary};
   }
 `;
-
-export const Image = styled.img`
-  height: 50%;
-`;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getBeers } from '../beers-list/store/actions';
 import { Button } from '../../components';
-import { PageTitle, StyledLink } from '../styles';
+import { PageTitle, StyledLink, Image } from '../styles';
 import {
   HeaderWrapper,
   BeerDetailsWrapper,
@@ -47,10 +47,10 @@ const BeerDetails = React.memo(({ beersList, id, getBeers }) => {
     first_brewed: firstBrewed,
     image_url: imageUrl,
     food_pairing: foodPairing,
-    adv: alcoholByVolume,
+    abv: alcoholByVolume,
     ibu: internationalBitternessUnits,
     contributed_by: contributedBy,
-    target_og: targetOf,
+    target_og: targetOg,
     target_fg: targetFg,
   } = beerDetails;
 
@@ -66,13 +66,13 @@ const BeerDetails = React.memo(({ beersList, id, getBeers }) => {
             <Text>Name: { name }</Text>
             <Text>Description: { description }</Text>
             <Text>First brewed: { firstBrewed }</Text>
-            <Text>{ imageUrl }</Text>
-            <Text>{ foodPairing }</Text>
+            <Image src={imageUrl} height="100px" />
+            <Text>{ foodPairing && foodPairing.join(', ') }</Text>
             <Text>Alcohol by volume: { alcoholByVolume }</Text>
             <Text>International Bitterness Units: { internationalBitternessUnits }</Text>
             <Text>Contributed by: { contributedBy }</Text>
             <Button onClick={handleToggle}>Toggle difference</Button>
-            { toggle && <Text>The difference is: { (targetOf - targetFg).toFixed(2) }</Text> }
+            { toggle && <Text>The difference is: { (targetOg - targetFg).toFixed(2) }</Text> }
           </div>
         )
         : (

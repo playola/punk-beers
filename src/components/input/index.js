@@ -8,7 +8,7 @@ import {
 
 const Input = ({ placeholder, ...props }) => (
   <InputWrapper>
-    <InputField type="text" {...props} />
+    <InputField type="text" required {...props} />
     <FloatingLabel>{ placeholder }</FloatingLabel>
   </InputWrapper>
 );

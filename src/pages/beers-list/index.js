@@ -4,13 +4,8 @@ import { connect } from 'react-redux';
 import { getBeers } from './store/actions';
 import { filterArrayByName } from '../../utils/filters';
 import { Input } from '../../components';
-import { PageTitle, StyledLink } from '../styles';
-import {
-  BeersPageWrapper,
-  BeersListWrapper,
-  BeerItemWrapper,
-  Image,
-} from './styles';
+import { PageTitle, StyledLink, Image } from '../styles';
+import { BeersPageWrapper, BeersListWrapper, BeerItemWrapper } from './styles';
 
 const BeersList = React.memo(({ beersList, getBeers, page }) => {
   const [name, setName] = useState('');
